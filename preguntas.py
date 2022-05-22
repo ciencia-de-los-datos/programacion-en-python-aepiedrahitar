@@ -174,8 +174,10 @@ def pregunta_05():
                 max_min_list.append(sub_element[element])
         max_value = max(max_min_list)
         min_value = min(max_min_list)
-        response.append((element, max_value, min_value))
+        response.append((element, int(max_value), int(min_value)))
     return response
+
+print(pregunta_05())    
 
 
 def pregunta_06():
