@@ -11,7 +11,8 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-
+import csv
+import collections
 
 def pregunta_01():
     """
@@ -21,8 +22,12 @@ def pregunta_01():
     214
 
     """
-    return
-
+    col_sum = 0
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            col_sum += int(row[1])
+    return col_sum
 
 def pregunta_02():
     """
@@ -39,8 +44,21 @@ def pregunta_02():
     ]
 
     """
-    return
+    response = []
+    col_1 = []
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            col_1.append(row[0]) 
+    col_1_elements_type = list(set(col_1))
+    col_1_elements_type.sort()
+    count_col = collections.Counter(col_1)
+    for element in col_1_elements_type:
+        element_tuple = (element, count_col[element])
+        response.append(element_tuple)
 
+
+    return response
 
 def pregunta_03():
     """
@@ -57,8 +75,24 @@ def pregunta_03():
     ]
 
     """
-    return
-
+    response = []
+    csv_list = []
+    col_1 = []
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            csv_list.append(row)
+            col_1.append(row[0]) 
+    col_1_elements_type = list(set(col_1))
+    col_1_elements_type.sort()
+    for element in col_1_elements_type:
+        element_sum = 0
+        for sub_element in csv_list:
+            if element == sub_element[0]:
+                element_sum += int(sub_element[1]) 
+        response.append((element,element_sum))    
+  
+    return response
 
 def pregunta_04():
     """
@@ -82,7 +116,26 @@ def pregunta_04():
     ]
 
     """
-    return
+    response = []
+    csv_list = []
+    col_3 = []
+    month_list = []
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            csv_list.append(row)
+            col_3.append(row[2]) 
+    for date in col_3:
+        month = date[5:-3]
+        month_list.append(month)
+    month_ordered_list = list(set(month_list))
+    month_ordered_list.sort()        
+    count_month = collections.Counter(month_list)
+    for element in month_ordered_list:
+        response.append((element, int(count_month[element])))     
+              
+    return response
+
 
 
 def pregunta_05():
@@ -100,7 +153,29 @@ def pregunta_05():
     ]
 
     """
-    return
+    response = []
+    csv_list = []
+    col_1_2 = []
+    col_1 = []
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            csv_list.append(row)
+            col_1_2.append({row[0]:row[1]})
+            col_1.append(row[0])
+    col_1_elements = list(set(col_1))
+    col_1_elements.sort()
+    for element in col_1_elements:
+        max_min_list = []
+        max_value = 0
+        min_value = 0
+        for sub_element in col_1_2:
+            if element in sub_element:
+                max_min_list.append(sub_element[element])
+        max_value = max(max_min_list)
+        min_value = min(max_min_list)
+        response.append((element, max_value, min_value))
+    return response
 
 
 def pregunta_06():
@@ -125,8 +200,41 @@ def pregunta_06():
     ]
 
     """
-    return
+    response = []
+    csv_list = []
+    col_5 = []
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            csv_list.append(row)
+            col_5.append(row[4]) 
+    split_col_5 = []
+    dict_col_5 = [] 
+    key_col_5 = []       
+    for element in col_5:
+        split_element = []
+        split_element = element.split(",")
+        for sub_element in split_element:
+            split_col_5.append(sub_element)
+    for element in split_col_5:
+        split_element = element.split(":")
+        dict_col_5.append({split_element[0]:int(split_element[1])})  
+        key_col_5.append(split_element[0])  
+    key_col_5_ordered = list(set(key_col_5))
+    key_col_5_ordered.sort()
+    for element in key_col_5_ordered:
+        max_min_list = []
+        max_value = 0
+        min_value = 0
+        for sub_element in dict_col_5:
+            if element in sub_element:
+                max_min_list.append(sub_element[element])
+        max_value = max(max_min_list)
+        min_value = min(max_min_list)
+        response.append((element, min_value, max_value))    
 
+
+    return response
 
 def pregunta_07():
     """
@@ -149,8 +257,29 @@ def pregunta_07():
     ]
 
     """
-    return
-
+    response = []
+    csv_list = []
+    col_1 = []
+    col_2 = []
+    col_1_2 = []
+    col_2_1 = []
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            csv_list.append(row)
+            col_1.append(row[0])
+            col_2.append(int(row[1]))
+            col_1_2.append({row[0]:row[1]})
+            col_2_1.append({row[1]:row[0]})      
+    col_2_ordered = list(set(col_2))
+    col_2_ordered.sort()
+    for element in col_2_ordered:
+        col_1_element_list = []
+        for sub_element in col_2_1:
+            if str(element) in sub_element:
+                col_1_element_list.append(sub_element[str(element)])   
+        response.append((int(element),col_1_element_list))       
+    return response
 
 def pregunta_08():
     """
@@ -174,8 +303,31 @@ def pregunta_08():
     ]
 
     """
-    return
-
+    response = []
+    csv_list = []
+    col_1 = []
+    col_2 = []
+    col_1_2 = []
+    col_2_1 = []
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            csv_list.append(row)
+            col_1.append(row[0])
+            col_2.append(int(row[1]))
+            col_1_2.append({row[0]:row[1]})
+            col_2_1.append({row[1]:row[0]})      
+    col_2_ordered = list(set(col_2))
+    col_2_ordered.sort()
+    for element in col_2_ordered:
+        col_1_element_list = []
+        for sub_element in col_2_1:
+            if str(element) in sub_element:
+                col_1_element_list.append(sub_element[str(element)])   
+        col_1_element_list_ordered=list(set(col_1_element_list))
+        col_1_element_list_ordered.sort()
+        response.append((int(element),col_1_element_list_ordered))       
+    return response
 
 def pregunta_09():
     """
@@ -197,8 +349,32 @@ def pregunta_09():
     }
 
     """
-    return
-
+    response = {}
+    csv_list = []
+    col_5 = []
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            csv_list.append(row)
+            col_5.append(row[4]) 
+    split_col_5 = []
+    dict_col_5 = [] 
+    key_col_5 = []       
+    for element in col_5:
+        split_element = []
+        split_element = element.split(",")
+        for sub_element in split_element:
+            split_col_5.append(sub_element)
+    for element in split_col_5:
+        split_element = element.split(":")
+        dict_col_5.append({split_element[0]:int(split_element[1])})  
+        key_col_5.append(split_element[0])
+    key_col_5_count = collections.Counter(key_col_5) 
+    key_col_5_ordered = list(set(key_col_5))
+    key_col_5_ordered.sort()
+    for element in key_col_5_ordered:
+        response[element] = key_col_5_count[element]
+    return response
 
 def pregunta_10():
     """
@@ -218,8 +394,35 @@ def pregunta_10():
 
 
     """
-    return
+    response = []
+    csv_list = []
+    col_1 = []
+    col_4 = []
+    col_5 = []
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            csv_list.append(row)
+            col_1.append(row[0])
+            col_4.append(row[3])
+            col_5.append(row[4]) 
+    split_col_4 = []
+    for element in col_4:
+        split_element = []
+        split_element = element.split(",")
+        col_4_count = len(split_element) 
+        split_col_4.append(col_4_count)
 
+    split_col_5 = []
+    for element in col_5:
+        split_element = []
+        split_element = element.split(",")
+        col_5_count = len(split_element) 
+        split_col_5.append(col_5_count) 
+
+    for element_col_1, element_col_4, element_col_5 in zip(col_1, split_col_4, split_col_5):
+        response.append((element_col_1,element_col_4,element_col_5))       
+    return response
 
 def pregunta_11():
     """
@@ -239,9 +442,32 @@ def pregunta_11():
 
 
     """
-    return
-
-
+    response = {}
+    pre_response = {}
+    csv_list = []
+    col_2 = []
+    col_4 = []
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            csv_list.append(row)
+            col_2.append(row[1])
+            col_4.append(row[3]) 
+    split_col_4 = []
+    for element in col_4:
+        split_element = element.split(",")
+        split_col_4.append(split_element)
+    for element_1, element_2 in zip(col_2, split_col_4):
+        for sub_element in element_2:
+            if sub_element in pre_response:
+                pre_response[sub_element] += int(element_1)
+            else:
+                pre_response[sub_element] = int(element_1)  
+    response_sorted = sorted(pre_response) 
+    for element in response_sorted:
+        response[element] = pre_response[element]
+    return response
+  
 def pregunta_12():
     """
     Genere un diccionario que contengan como clave la columna 1 y como valor la suma de
@@ -257,4 +483,31 @@ def pregunta_12():
     }
 
     """
-    return
+    pre_response = {}
+    response = {}
+    csv_list = []
+    col_1 = []
+    col_5 = []
+    with open('data.csv', newline='') as File:  
+        reader = csv.reader(File, delimiter='\t')
+        for row in reader:
+            csv_list.append(row)
+            col_1.append(row[0]) 
+            col_5.append(row[4])
+    split_col_5 = []
+    for element in col_5:
+        split_element = element.split(",")
+        split_col_5.append(split_element)  
+    for element_1,element_2 in zip(col_1, split_col_5):
+        for sub_element in element_2:
+            split_sub_element = sub_element.split(":")
+            if element_1 in pre_response:
+                pre_response[element_1] += int(split_sub_element[1])
+            else:
+                 pre_response[element_1] = int(split_sub_element[1])
+    response_sorted = sorted(pre_response) 
+    for element in response_sorted:
+        response[element] = pre_response[element]
+    return response                
+
+print(pregunta_12())
